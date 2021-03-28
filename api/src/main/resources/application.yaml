@@ -1,0 +1,20 @@
+server:
+  port: 8080
+spring:
+  mail:
+    host: smtp.163.com
+    protocol: smtp
+    default-encoding: UTF-8
+    #发件人
+    username: gaoyuanming_1@163.com
+    #授权码
+    password: a123456
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/logistics?characterEncoding=utf8&serverTimezone=UTC
+    username: root
+    password: abc521521521
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
