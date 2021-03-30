@@ -1,6 +1,5 @@
 package com.example.api.model.entity;
 
-import com.example.api.model.enums.Role;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
@@ -10,32 +9,43 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 /**
- * 管理员
+ * 配送
  */
 @Data
 @Entity
 @NoArgsConstructor
-public class Admin {
+public class Distribution {
 
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
 
-    private String password;
+    //司机id
+    private String did;
 
-    private String email;
+    //车辆id
+    private String vid;
 
-    private String roles;
+    //司机
+    private String driver;
 
-    private String createAt;
+    //车牌号
+    private String number;
 
-    public void setRoles(Role[] roles) {
-        StringBuilder builder = new StringBuilder();
-        for (Role role : roles) {
-            builder.append(role.getValue()).append(";");
-        }
-        this.roles = builder.toString();
-    }
+    //客户电话
+    private String phone;
+
+    //客户地址
+    private String address;
+
+    //加急处理
+    private boolean urgent;
+
+    private String care;
+
+    private String time;
+
+    private Integer status;
 
 }

@@ -21,7 +21,7 @@ export default {
 
   mounted() {
     this.$message.success(
-        '欢迎管理员 ' + this.$store.state.user.details.username,
+        '欢迎管理员 ' + this.$store.state.user.details.email,
         6,
     );
   }

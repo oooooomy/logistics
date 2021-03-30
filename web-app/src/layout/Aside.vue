@@ -43,15 +43,16 @@ export default {
           title: '销售信息管理',
           icon: 'pay-circle',
           children: [
+            {title: '新增订单', path: '/sale/create'},
             {title: '销售记录', path: '/sale/record'},
-            {title: '订单管理', path: '/home'},
           ]
         },
         {
           title: '配送信息管理',
           icon: 'car',
           children: [
-            {title: '销售开票', path: '/home'},
+            {title: '申请配送', path: '/delivery/create'},
+            {title: '配送列表', path: '/delivery/list'},
           ]
         },
         {
@@ -60,14 +61,6 @@ export default {
           children: [
             {title: '车辆资料', path: '/vehicle'},
             {title: '驾驶员资料', path: '/driver'},
-          ]
-        },
-        {
-          title: '仓储信息管理',
-          icon: 'solution',
-          children: [
-            {title: '销售开票', path: '/home'},
-            {title: '订单管理', path: '/home'},
           ]
         },
         {

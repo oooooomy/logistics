@@ -7,24 +7,24 @@
       </div>
       <div class="title">Logistics Management 物流管理系统 - 管理员登录</div>
       <a-tabs @change="tabClick" default-active-key="1" :tabBarStyle="{ textAlign: 'center' }">
-        <a-tab-pane key="1" tab="账号密码登陆">
+        <a-tab-pane key="1" tab="密码登陆">
           <a-input
-              v-model="form.username"
+              v-model="form.email"
               size="large"
               style="margin-top: 10px"
               class="input"
-              placeholder="账户 admin">
-            <a-icon slot="prefix" type="user"/>
+              placeholder="邮箱">
+            <a-icon slot="prefix" type="mail"/>
           </a-input>
           <a-input-password
               v-model="form.password"
               size="large"
               class="input"
-              placeholder="密码 admin">
+              placeholder="密码">
             <a-icon slot="prefix" type="lock"/>
           </a-input-password>
         </a-tab-pane>
-        <a-tab-pane key="2" tab="邮箱登陆" force-render>
+        <a-tab-pane key="2" tab="验证码登陆" force-render>
           <a-input
               v-model="form.email"
               size="large"
@@ -72,7 +72,6 @@ export default {
       submitType: '1', //1账号登录 2邮箱登录
       submitLoading: false,
       form: {
-        username: '',
         password: '',
         email: '',
         code: '',
@@ -94,12 +93,11 @@ export default {
     },
 
     submitLogin() {
-      let result = this.submitType === '1' ? this.checkUsernameAndPwd() : this.checkEmail()
-      if (result) {
-        let type = this.submitType === '1' ? "username" : "email"
+      if (this.checkEmail()) {
+        let type = this.submitType === '1' ? "passwrod" : "email"
         AdminLogin(type, this.form).then((res) => {
           console.log(res.data)
-          if (res.status){
+          if (res.status) {
             this.$store.commit('user/saveToken', res.data.token)
             this.$store.commit('user/saveLoginUser', res.data.admin)
             setTimeout(() => {
@@ -114,15 +112,6 @@ export default {
 
     tabClick(key) {
       this.submitType = key
-    },
-
-    checkUsernameAndPwd() {
-      if (this.form.username.length < 5 && this.form.password.length < 5) {
-        this.$message.error('请输入不少于5位的用户名和密码');
-        return false
-      } else {
-        return true
-      }
     },
 
     checkEmail() {

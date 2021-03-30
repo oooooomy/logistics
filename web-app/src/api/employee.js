@@ -2,14 +2,14 @@ import service from "../utils/request";
 
 export function FindAllEmployee(){
     return service({
-        url: '/employee/findAll',
+        url: '/employee',
         method: 'get'
     })
 }
 
 export function SaveEmployee(data) {
     return service({
-        url: '/employee/save',
+        url: '/employee',
         method: 'post',
         data: data
     })
@@ -17,7 +17,7 @@ export function SaveEmployee(data) {
 
 export function DeleteEmployeeById(id){
     return service({
-        url: '/employee/delete?id=' + id,
+        url: '/employee?id=' + id,
         method: 'delete'
     })
 }

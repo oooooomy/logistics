@@ -14,22 +14,22 @@ public class DriverController {
     @Resource
     private DriverService driverService;
 
-    @PostMapping("/save")
+    @PostMapping("")
     public Driver save(@RequestBody Driver driver) {
         return driverService.save(driver);
     }
 
-    @GetMapping("/findAll")
+    @GetMapping("")
     public List<Driver> findAll() {
         return driverService.findAll();
     }
 
-    @GetMapping("/findById")
-    public Driver findById(String id) {
+    @GetMapping("/{id}")
+    public Driver findById(@PathVariable String id) {
         return driverService.findById(id);
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("")
     public void delete(String id) {
         driverService.delete(id);
     }

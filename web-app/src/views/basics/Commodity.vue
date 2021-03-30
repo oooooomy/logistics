@@ -26,9 +26,6 @@
         <a-form-model-item label="商品单价" prop="price">
           <a-input-number id="input" v-model="commodity.price" :min="1"/>
         </a-form-model-item>
-        <a-form-model-item label="库存数量" prop="count">
-          <a-input-number id="inputNumber" v-model="commodity.count" :min="1"/>
-        </a-form-model-item>
         <a-form-model-item label="描述信息" prop="description">
           <a-input v-model="commodity.description" type="textarea"/>
         </a-form-model-item>
@@ -115,7 +112,7 @@ export default {
       commodity: {
         name: '',
         description: '商品简介',
-        count: 30,
+        count: 0,
         price: 9.99,
       },
       loading: false,

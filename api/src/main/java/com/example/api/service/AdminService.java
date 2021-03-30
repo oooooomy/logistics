@@ -13,7 +13,7 @@ public interface AdminService {
 
     void sendEmail(String email) throws Exception;
 
-    Admin loginByUsername(LoginDto dto) throws Exception;
+    Admin loginByPassword(LoginDto dto) throws Exception;
 
     Admin loginByEmail(LoginDto dto) throws Exception;
 

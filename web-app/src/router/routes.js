@@ -33,6 +33,11 @@ const routes = [
                 meta: {auth: true}
             },
             {
+                path: 'warehouse/:id',
+                component: () => import('@/views/basics/Details'),
+                meta: {auth: true}
+            },
+            {
                 path: 'driver',
                 component: () => import('@/views/transport/Driver'),
                 meta: {auth: true}
@@ -47,6 +52,23 @@ const routes = [
                 component: () => import('@/views/sale/Record'),
                 meta: {auth: true}
             },
+            {
+                path: 'sale/create',
+                component: () => import('@/views/sale/Create'),
+                meta: {auth: true}
+            },
+
+            {
+                path: 'delivery/create',
+                component: () => import('@/views/delivery/Create'),
+                meta: {auth: true}
+            },
+            {
+                path: 'delivery/list',
+                component: () => import('@/views/delivery/List'),
+                meta: {auth: true}
+            },
+
 
             {
                 path: 'security',
@@ -70,6 +92,12 @@ const routes = [
             {
                 path: '500',
                 component: () => import('@/views/error/500'),
+                meta: {auth: true}
+            },
+
+            {
+                path: 'test',
+                component: () => import('@/views/Test'),
                 meta: {auth: true}
             },
 

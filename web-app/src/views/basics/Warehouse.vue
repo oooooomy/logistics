@@ -12,7 +12,11 @@
           <a-card hoverable>
             <template slot="actions" class="ant-card-actions">
               <span>负责人: {{ item.principle }}</span>
-              <span>删除仓库</span>
+              <span>
+                <router-link :to="'/warehouse/' + item.id">
+                  <a-icon type="bar-chart"/> 库存管理
+                </router-link>
+              </span>
             </template>
             <a-card-meta
                 :title="(index+1) +'号仓库'"

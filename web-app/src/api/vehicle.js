@@ -2,14 +2,14 @@ import service from "../utils/request";
 
 export function FindAllVehicle(){
     return service({
-        url: '/vehicle/findAll',
+        url: '/vehicle',
         method: 'get'
     })
 }
 
 export function SaveVehicle(data) {
     return service({
-        url: '/vehicle/save',
+        url: '/vehicle',
         method: 'post',
         data: data
     })
@@ -17,7 +17,7 @@ export function SaveVehicle(data) {
 
 export function DeleteVehicleById(id){
     return service({
-        url: '/vehicle/delete?id=' + id,
+        url: '/vehicle?id=' + id,
         method: 'delete'
     })
 }

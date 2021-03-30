@@ -14,18 +14,18 @@ public class WarehouseController {
     @Resource
     private WarehouseService warehouseService;
 
-    @PostMapping("/save")
-    public Warehouse save(@RequestBody Warehouse warehouse){
+    @PostMapping("")
+    public Warehouse save(@RequestBody Warehouse warehouse) {
         return warehouseService.save(warehouse);
     }
 
-    @GetMapping("/findAll")
+    @GetMapping("")
     public List<Warehouse> findAll() {
         return warehouseService.findAll();
     }
 
-    @DeleteMapping("/delete")
-    public void delete(String id){
+    @DeleteMapping("")
+    public void delete(String id) {
         warehouseService.delete(id);
     }
 

@@ -14,28 +14,28 @@ public class CommodityController {
     @Resource
     private CommodityService commodityService;
 
-    @PostMapping("/save")
+    @PostMapping("")
     public Commodity save(@RequestBody Commodity commodity) {
         return commodityService.save(commodity);
     }
 
-    @DeleteMapping("/delete")
-    public void delete(String id){
+    @DeleteMapping("")
+    public void delete(String id) {
         commodityService.delete(id);
     }
 
-    @PutMapping("/update")
-    public void update(@RequestBody Commodity commodity){
+    @PutMapping("")
+    public void update(@RequestBody Commodity commodity) {
         commodityService.update(commodity);
     }
 
-    @GetMapping("/findAll")
-    public List<Commodity> findAll(){
+    @GetMapping("")
+    public List<Commodity> findAll() {
         return commodityService.findAll();
     }
 
-    @GetMapping("/findById")
-    public Commodity findById(String id){
+    @GetMapping("/{id}")
+    public Commodity findById(@PathVariable String id) {
         return commodityService.findById(id);
     }
 

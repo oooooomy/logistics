@@ -5,6 +5,7 @@ import com.example.api.model.entity.Admin;
 import com.example.api.repository.AdminRepository;
 import com.example.api.service.AdminService;
 import com.example.api.service.EmailService;
+import com.example.api.utils.DataTimeUtil;
 import com.example.api.utils.JwtTokenUtil;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Admin save(Admin admin) {
+        admin.setCreateAt(DataTimeUtil.getNowTimeString());
         return adminRepository.save(admin);
     }
 
@@ -39,8 +41,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Admin loginByUsername(LoginDto dto) throws Exception {
-        Admin one = adminRepository.findAdminByUsernameAndPassword(dto.getUsername(), dto.getPassword());
+    public Admin loginByPassword(LoginDto dto) throws Exception {
+        Admin one = adminRepository.findAdminByEmailAndPassword(dto.getEmail(), dto.getPassword());
         if (one == null) throw new Exception("用户名或密码错误");
         return one;
     }
@@ -61,7 +63,7 @@ public class AdminServiceImpl implements AdminService {
     public String createToken(Admin admin, long exp) {
         String rolesString = admin.getRoles();
         String[] roles = rolesString != null ? rolesString.split(";") : null;
-        return JwtTokenUtil.createToken(admin.getUsername(), roles, exp);
+        return JwtTokenUtil.createToken(admin.getEmail(), roles, exp);
     }
 
 }

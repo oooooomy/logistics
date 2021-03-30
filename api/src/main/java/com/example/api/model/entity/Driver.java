@@ -40,7 +40,7 @@ public class Driver {
     private String score;
 
     //正在驾驶
-    private boolean isDriving;
+    private boolean driving;
 
     private String createAt;
 

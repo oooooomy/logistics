@@ -15,23 +15,23 @@ public class VehicleController {
     @Resource
     private VehicleService vehicleService;
 
-    @PostMapping("/save")
-    public Vehicle save(@RequestBody Vehicle vehicle){
+    @PostMapping("")
+    public Vehicle save(@RequestBody Vehicle vehicle) {
         return vehicleService.save(vehicle);
     }
 
-    @GetMapping("/findAll")
-    public List<Vehicle> findAll(){
+    @GetMapping("")
+    public List<Vehicle> findAll() {
         return vehicleService.findAll();
     }
 
-    @GetMapping("/findById")
-    public Vehicle findById(String id){
+    @GetMapping("/{id}")
+    public Vehicle findById(@PathVariable String id) {
         return vehicleService.findById(id);
     }
 
-    @DeleteMapping("/delete")
-    public void delete(String id){
+    @DeleteMapping("")
+    public void delete(String id) {
         vehicleService.delete(id);
     }
 

@@ -14,28 +14,28 @@ public class EmployeeController {
     @Resource
     private EmployeeService employeeService;
 
-    @GetMapping("/findAll")
+    @GetMapping("")
     public List<Employee> findAll() {
         return employeeService.findAll();
     }
 
-    @GetMapping("/findById")
-    public Employee findById(String id) {
+    @GetMapping("/{id}")
+    public Employee findById(@PathVariable String id) {
         return employeeService.findById(id);
     }
 
-    @PostMapping("/save")
+    @PostMapping("")
     public Employee save(@RequestBody Employee employee) {
         return employeeService.save(employee);
     }
 
-    @PutMapping("/update")
+    @PutMapping("")
     public void update(@RequestBody Employee employee) {
         employeeService.update(employee);
     }
 
-    @DeleteMapping("/delete")
-    public void delete(String id){
+    @DeleteMapping("")
+    public void delete(String id) {
         employeeService.delete(id);
     }
 

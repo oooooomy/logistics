@@ -2,12 +2,6 @@
   <div class="main">
     <div class="title">安全设置</div>
     <div>
-      <a class="item-title" type="link">用户名</a>
-      <a-button class="btn" @click="usernameVisible = true" type="link">修改</a-button>
-      <p class="des">账户用户名： {{ admin.username }}</p>
-      <a-divider/>
-    </div>
-    <div>
       <a class="item-title" type="link">账号密码</a>
       <a-button class="btn" @click="passwordVisible = true" type="link">修改</a-button>
       <p class="des">账号密码： {{ show ? this.$store.state.user.details.password : '********' }}
@@ -24,18 +18,6 @@
       <a-divider/>
     </div>
 
-    <a-modal
-        title="用户名修改"
-        :visible="usernameVisible"
-        @ok="submit"
-        @cancel="usernameVisible = false"
-    >
-      <a-form-model :model="admin">
-        <a-form-model-item label="用户名">
-          <a-input v-model="admin.username"/>
-        </a-form-model-item>
-      </a-form-model>
-    </a-modal>
     <a-modal
         title="密码修改"
         :visible="passwordVisible"
@@ -73,7 +55,6 @@ export default {
     return {
       admin: this.$store.state.user.details,
       show: false,
-      usernameVisible: false,
       emailVisible: false,
       passwordVisible: false,
     }
@@ -88,7 +69,6 @@ export default {
           this.$store.commit('user/saveLoginUser', res.data)
         }
       })
-      this.usernameVisible = false
       this.emailVisible = false
       this.passwordVisible = false
     },

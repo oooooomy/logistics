@@ -2,7 +2,7 @@ import service from "../utils/request";
 
 export function SaveAdmin(data) {
     return service({
-        url: '/admin/save',
+        url: '/admin',
         method: 'post',
         data: data
     })
@@ -17,7 +17,7 @@ export function AdminSendEmail(email) {
 
 export function AdminLogin(type, data) {
     return service({
-        url: '/admin/login/' + type,
+        url: '/admin/login?type=' + type,
         method: 'post',
         data: data
     })

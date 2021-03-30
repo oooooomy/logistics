@@ -2,14 +2,14 @@ import service from "../utils/request";
 
 export function FindAllCommodity(){
     return service({
-        url: '/commodity/findAll',
+        url: '/commodity',
         method: 'get'
     })
 }
 
 export function SaveCommodity(data) {
     return service({
-        url: '/commodity/save',
+        url: '/commodity',
         method: 'post',
         data: data
     })
@@ -17,7 +17,7 @@ export function SaveCommodity(data) {
 
 export function DeleteCommodityById(id){
     return service({
-        url: '/commodity/delete?id=' + id,
+        url: '/commodity?id=' + id,
         method: 'delete'
     })
 }
