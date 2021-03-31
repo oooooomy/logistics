@@ -43,7 +43,7 @@ export default {
           title: '销售信息管理',
           icon: 'pay-circle',
           children: [
-            {title: '新增订单', path: '/sale/create'},
+            {title: '销售开票', path: '/sale/create'},
             {title: '销售记录', path: '/sale/record'},
           ]
         },
@@ -67,8 +67,8 @@ export default {
           title: '系统决策管理',
           icon: 'line-chart',
           children: [
-            {title: '销售开票', path: '/home'},
-            {title: '订单管理', path: '/home'},
+            {title: '入库分析', path: '/analyze/in'},
+            {title: '出库分析', path: '/analyze/out'},
           ]
         },
         {
@@ -76,8 +76,8 @@ export default {
           icon: 'tool',
           children: [
             {title: '安全设置', path: '/security'},
-            {title: '数据管理', path: '/home'},
-            {title: '权限设置', path: '/home'},
+            {title: '操作员管理', path: '/admin'},
+            {title: '权限列表', path: '/role'},
           ]
         },
       ]

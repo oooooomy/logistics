@@ -2,6 +2,7 @@ package com.example.api.controller;
 
 import com.example.api.model.entity.Inventory;
 import com.example.api.model.entity.InventoryRecord;
+import com.example.api.model.vo.CommodityChartVo;
 import com.example.api.service.InventoryRecordService;
 import com.example.api.service.InventoryService;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,16 @@ public class InventoryController {
 
     @Resource
     private InventoryRecordService recordService;
+
+    @GetMapping("")
+    public List<Inventory> findAll() {
+        return inventoryService.findAll();
+    }
+
+    @GetMapping("analyze")
+    public List<CommodityChartVo> analyze(Integer type) {
+        return recordService.analyzeCommodity(type);
+    }
 
     //指定仓库id
     //查询某个仓库的库存情况

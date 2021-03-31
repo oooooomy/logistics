@@ -1,12 +1,13 @@
 <template>
   <div>
-    <a-button size="large" class="editable-add-btn" @click="visible = true">
-      <a-icon type="plus"/>
-      新增驾驶员
-    </a-button>
     <a-table :loading="loading" :columns="columns" :data-source="data" bordered rowKey="id">
+      <span slot="status" slot-scope="status">
+        <a-tag v-if="status===0" color="#f50">等待审核</a-tag>
+        <a-tag v-if="status===1" color="#87d068">正在运输</a-tag>
+        <a-tag v-if="status===2" color="#2db7f5">配送完成</a-tag>
+      </span>
       <template
-          v-for="col in ['name', 'gender', 'phone','score','idCard','address', 'license']"
+          v-for="col in ['phone','address']"
           :slot="col"
           slot-scope="text, record, index"
       >
@@ -24,7 +25,7 @@
       </template>
       <template slot="operation" slot-scope="text, record, index">
         <div class="editable-row-operations">
-        <span v-if="record.editable">
+          <span v-if="record.editable">
           <a @click="() => save(record.id, index)">保存</a>
           <a-popconfirm title="Sure to cancel?" @confirm="() => cancel(record.id)">
             <a>取消</a>
@@ -33,12 +34,9 @@
           <span v-else>
           <a :disabled="editingKey !== ''" @click="() => edit(record.id)">编辑</a>
         </span>
-          <a-popconfirm placement="top" ok-text="Yes" cancel-text="No" @confirm="confirm(record.id)">
-            <template slot="title">
-              <p> 删除驾驶员信息后将无法恢复，确定要删除吗？ </p>
-            </template>
-            <a-button type="link">删除</a-button>
-          </a-popconfirm>
+          <a-button @click="review(index)" type="link" v-if="record.status===0">审核</a-button>
+          <a-button @click="review(index)" type="link" v-if="record.status===1">配送</a-button>
+          <a-button @click="review(index)" type="link" v-if="record.status===2">查看</a-button>
         </div>
       </template>
     </a-table>
@@ -81,47 +79,99 @@
       </a-form-model>
     </a-modal>
 
+    <a-modal
+        title="Title"
+        :visible="visible2"
+        width="60%"
+        :footer="null"
+        @cancel="visible2 = false"
+    >
+      <a-steps :current="select.status" style="padding: 50px">
+        <a-step title="确认信息无误"/>
+        <a-step title="开始配送"/>
+        <a-step title="配送完成"/>
+      </a-steps>
+      <div class="content">
+        <div v-if="select.status === 0" class="check">
+          <p>送货司机： {{ select.driver }}</p>
+          <p>车牌号码： {{ select.number }}</p>
+          <p>加急处理： {{ select.urgent }}</p>
+          <p>注意事项： {{ select.care }}</p>
+          <p>客户电话： {{ select.phone }}</p>
+          <p>客户地址： {{ select.address }}</p>
+          <p>预计送达： {{ select.time }}</p>
+          <a-button type="danger" style="margin-right: 20px" :loading="loading" @click="agree">通过</a-button>
+          <a-button @click="visible2 = false">不通过</a-button>
+        </div>
+        <div v-if="select.status === 1">
+          <a-result
+              status="success"
+              title="Successfully passed the audit!"
+              >
+            <template #extra>
+              <a-button @click="service" key="console" type="primary">
+                已送达目的地
+              </a-button>
+            </template>
+          </a-result>
+        </div>
+        <div v-if="select.status === 2">
+          <a-result
+              status="success"
+              title="运输订单已成功送达"
+          >
+            <template #extra>
+              <a-button @click="visible2 = false" key="console" type="primary">
+                确定
+              </a-button>
+            </template>
+          </a-result>
+        </div>
+      </div>
+
+    </a-modal>
+
   </div>
 </template>
 
 <script>
-import {DeleteDriverById, FindAllDriver, SaveDriver} from "@/api/driver";
+import {FindAllDistribution, SaveDistribution} from "../../api/distribution";
 
 const columns = [
   {
-    title: '名字',
-    dataIndex: 'name',
-    scopedSlots: {customRender: 'name'},
+    title: '司机',
+    dataIndex: 'driver',
+    scopedSlots: {customRender: 'driver'},
   },
   {
-    title: '性别',
-    dataIndex: 'gender',
-    scopedSlots: {customRender: 'gender'},
+    title: '车牌号',
+    dataIndex: 'number',
+    scopedSlots: {customRender: 'number'},
   },
   {
-    title: '联系电话',
+    title: '客户电话',
     dataIndex: 'phone',
     scopedSlots: {customRender: 'phone'},
   },
   {
-    title: '驾驶证',
-    dataIndex: 'license',
-    scopedSlots: {customRender: 'license'},
-  },
-  {
-    title: '驾证分数',
-    dataIndex: 'score',
-    scopedSlots: {customRender: 'score'},
-  },
-  {
-    title: '身份证',
-    dataIndex: 'idCard',
-    scopedSlots: {customRender: 'idCard'},
-  },
-  {
-    title: '家庭住址',
+    title: '客户地址',
     dataIndex: 'address',
     scopedSlots: {customRender: 'address'},
+  },
+  {
+    title: '注意事项',
+    dataIndex: 'care',
+    scopedSlots: {customRender: 'care'},
+  },
+  {
+    title: '预计送达',
+    dataIndex: 'time',
+    scopedSlots: {customRender: 'time'},
+  },
+  {
+    title: '当前状态',
+    dataIndex: 'status',
+    scopedSlots: {customRender: 'status'},
   },
   {
     title: '操作',
@@ -133,6 +183,7 @@ const columns = [
 export default {
   data() {
     return {
+      select: {},
       loading: false,
       form: {
         cacheData: [],
@@ -145,6 +196,7 @@ export default {
         score: 12,
       },
       visible: false,
+      visible2: false,
       data: [],
       columns,
       editingKey: '',
@@ -156,7 +208,7 @@ export default {
   methods: {
     loadTableData() {
       this.loading = true
-      FindAllDriver().then((res) => {
+      FindAllDistribution().then((res) => {
         if (res.status) {
           this.data = res.data
           this.cacheData = res.data.map(item => ({...item}))
@@ -167,7 +219,7 @@ export default {
       })
     },
     submitForm() {
-      SaveDriver(this.form).then((res) => {
+      SaveDistribution(this.form).then((res) => {
         if (res.status) this.$message.success('司机信息提交成功');
         this.visible = false
         this.loadTableData()
@@ -190,6 +242,7 @@ export default {
         this.data = newData;
       }
     },
+
     save(id, index) {
       const newData = [...this.data];
       const newCacheData = [...this.cacheData];
@@ -202,10 +255,11 @@ export default {
         this.cacheData = newCacheData;
       }
       this.editingKey = '';
-      SaveDriver(newData[index]).then((res) => {
+      SaveDistribution(newData[index]).then((res) => {
         if (res.status) this.$message.success("信息保存成功")
       })
     },
+
     cancel(id) {
       const newData = [...this.data];
       const target = newData.filter(item => id === item.id)[0];
@@ -216,12 +270,22 @@ export default {
         this.data = newData;
       }
     },
-    confirm(id) {
-      DeleteDriverById(id).then((res) => {
-        if (res.status)  this.$message.success('Delete success');
-        this.loadTableData()
-      })
+
+    review(index) {
+      this.select = this.data[index]
+      this.visible2 = true
     },
+
+    agree() {
+      this.select.status = 1
+      SaveDistribution(this.select)
+    },
+
+    service(){
+      this.select.status = 2
+      SaveDistribution(this.select)
+    },
+
   },
 };
 </script>
@@ -233,5 +297,18 @@ export default {
 
 .editable-row-operations a {
   margin-right: 8px;
+}
+
+.content {
+  padding: 50px 0;
+}
+
+
+.check {
+  padding-left: 200px;
+}
+
+.check p {
+  padding-bottom: 20px;
 }
 </style>

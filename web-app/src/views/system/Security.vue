@@ -1,22 +1,24 @@
 <template>
   <div class="main">
     <div class="title">安全设置</div>
-    <div>
-      <a class="item-title" type="link">账号密码</a>
-      <a-button class="btn" @click="passwordVisible = true" type="link">修改</a-button>
-      <p class="des">账号密码： {{ show ? this.$store.state.user.details.password : '********' }}
-        <a @click="show = !show" style="padding-left: 10px">
-          <a-icon :type="!show ? 'eye' : 'eye-invisible' "/>
-        </a>
-      </p>
-      <a-divider/>
-    </div>
-    <div>
-      <a class="item-title" type="link">绑定邮箱</a>
-      <a-button class="btn" @click="emailVisible = true" type="link">修改</a-button>
-      <p class="des">已绑定邮箱： {{ this.$store.state.user.details.email }}</p>
-      <a-divider/>
-    </div>
+    <a-spin size="large" :spinning="spinning">
+      <div>
+        <a class="item-title" type="link">账号密码</a>
+        <a-button class="btn" @click="passwordVisible = true" type="link">修改</a-button>
+        <p class="des">账号密码： {{ show ? this.$store.state.user.details.password : '********' }}
+          <a @click="show = !show" style="padding-left: 10px">
+            <a-icon :type="!show ? 'eye' : 'eye-invisible' "/>
+          </a>
+        </p>
+        <a-divider/>
+      </div>
+      <div>
+        <a class="item-title" type="link">绑定邮箱</a>
+        <a-button class="btn" @click="emailVisible = true" type="link">修改</a-button>
+        <p class="des">已绑定邮箱： {{ this.$store.state.user.details.email }}</p>
+        <a-divider/>
+      </div>
+    </a-spin>
 
     <a-modal
         title="密码修改"
@@ -57,20 +59,34 @@ export default {
       show: false,
       emailVisible: false,
       passwordVisible: false,
+      spinning: false,
     }
   },
 
+  mounted() {
+    this.load()
+  },
+
+
   methods: {
+
+    load() {
+      this.spinning = true
+      setTimeout(() => {
+        this.spinning = false
+      }, 500)
+    },
 
     submit() {
       SaveAdmin(this.admin).then((res) => {
-        if (res.status){
+        if (res.status) {
           this.$message.success("账号信息修改成功")
           this.$store.commit('user/saveLoginUser', res.data)
         }
       })
       this.emailVisible = false
       this.passwordVisible = false
+      this.load()
     },
 
   }

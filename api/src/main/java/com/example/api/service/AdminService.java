@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface AdminService {
 
-    Admin save(Admin admin);
+    Admin save(Admin admin) throws Exception;
 
     Admin findById(String id);
 
@@ -22,4 +22,5 @@ public interface AdminService {
     //生成token
     String createToken(Admin admin, long exp);
 
+    void delete(String id);
 }

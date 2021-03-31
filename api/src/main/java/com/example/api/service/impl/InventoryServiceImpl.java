@@ -20,6 +20,11 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
+    public List<Inventory> findAll() {
+        return inventoryRepository.findAll();
+    }
+
+    @Override
     public List<Inventory> findByCommodityId(String cid) {
         return inventoryRepository.findAllByCid(cid);
     }

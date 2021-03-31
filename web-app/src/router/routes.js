@@ -69,10 +69,31 @@ const routes = [
                 meta: {auth: true}
             },
 
+            {
+                path: 'analyze/in',
+                component: () => import('@/views/analyze/In'),
+                meta: {auth: true}
+            },
+
+            {
+                path: 'analyze/out',
+                component: () => import('@/views/analyze/Out'),
+                meta: {auth: true}
+            },
 
             {
                 path: 'security',
                 component: () => import('@/views/system/Security'),
+                meta: {auth: true},
+            },
+            {
+                path: 'admin',
+                component: () => import('@/views/system/Admin'),
+                meta: {auth: true},
+            },
+            {
+                path: 'role',
+                component: () => import('@/views/system/Role'),
                 meta: {auth: true},
             },
 
@@ -95,12 +116,6 @@ const routes = [
                 meta: {auth: true}
             },
 
-            {
-                path: 'test',
-                component: () => import('@/views/Test'),
-                meta: {auth: true}
-            },
-
         ]
     },
 
@@ -109,6 +124,14 @@ const routes = [
         path: '/login',
         name: 'Login',
         component: () => import('@/views/Login'),
+        meta: {auth: false}
+    },
+
+    //初始化
+    {
+        path: '/init',
+        name: 'Init',
+        component: () => import('@/views/Init'),
         meta: {auth: false}
     },
 

@@ -14,11 +14,8 @@ public enum DistributionStatus {
     //审核成功
     REVIEW_SUCCESS(1),
 
-    //审核失败
-    REVIEW_FAILED(2),
-
     //订单完成
-    END(3);
+    END(2);
 
     @Getter
     @Setter

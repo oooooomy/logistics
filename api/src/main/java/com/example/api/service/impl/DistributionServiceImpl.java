@@ -27,12 +27,14 @@ public class DistributionServiceImpl implements DistributionService {
 
     @Override
     public Distribution save(Distribution distribution) throws Exception {
-        Optional<Driver> driver = driverRepository.findById(distribution.getDid());
-        Optional<Vehicle> vehicle = vehicleRepository.findById(distribution.getVid());
-        if (driver.isEmpty() || vehicle.isEmpty()) throw new Exception("请求参数错误");
-        if (driver.get().isDriving() || vehicle.get().isDriving()) throw new Exception("司机或货车状态不可用");
-        driverRepository.updateDriving(true, distribution.getDid());
-        vehicleRepository.updateDriving(true, distribution.getVid());
+        if (distributionRepository.findById(distribution.getId()).isEmpty()) {
+            Optional<Driver> driver = driverRepository.findById(distribution.getDid());
+            Optional<Vehicle> vehicle = vehicleRepository.findById(distribution.getVid());
+            if (driver.isEmpty() || vehicle.isEmpty()) throw new Exception("请求参数错误");
+            if (driver.get().isDriving() || vehicle.get().isDriving()) throw new Exception("司机或货车状态不可用");
+            driverRepository.updateDriving(true, distribution.getDid());
+            vehicleRepository.updateDriving(true, distribution.getVid());
+        }
         return distributionRepository.save(distribution);
     }
 

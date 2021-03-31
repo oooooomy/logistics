@@ -2,6 +2,7 @@ package com.example.api.controller;
 
 import com.example.api.model.entity.Commodity;
 import com.example.api.service.CommodityService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -9,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/commodity")
+@PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN' ,'ROLE_COMMODITY')")
 public class CommodityController {
 
     @Resource

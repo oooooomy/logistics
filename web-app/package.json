@@ -9,6 +9,7 @@
   "dependencies": {
     "ant-design-vue": "^1.7.4",
     "axios": "^0.21.1",
+    "echarts": "^5.0.2",
     "nprogress": "^0.2.0",
     "vue": "^2.6.11",
     "vue-json-excel": "^0.3.0",

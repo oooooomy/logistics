@@ -1,6 +1,6 @@
 import service from "../utils/request";
 
-export function FindAllCommodity(){
+export function FindAllCommodity() {
     return service({
         url: '/commodity',
         method: 'get'
@@ -15,7 +15,7 @@ export function SaveCommodity(data) {
     })
 }
 
-export function DeleteCommodityById(id){
+export function DeleteCommodityById(id) {
     return service({
         url: '/commodity?id=' + id,
         method: 'delete'

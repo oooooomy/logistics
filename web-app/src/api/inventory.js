@@ -1,5 +1,12 @@
 import service from "../utils/request";
 
+export function AnalyzeCommodity(type) {
+    return service({
+        url: '/inventory/analyze?type=' + type,
+        method: 'get'
+    })
+}
+
 export function FindAllInventory(id) {
     return service({
         url: '/inventory/warehouse/' + id,

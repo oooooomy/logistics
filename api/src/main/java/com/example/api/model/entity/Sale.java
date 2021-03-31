@@ -9,23 +9,33 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 /**
- * 管理员
+ * 销售
  */
 @Data
 @Entity
 @NoArgsConstructor
-public class Admin {
+public class Sale {
 
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
 
-    private String email;
+    private String company;
 
-    private String password;
+    private String number;
 
-    private String roles;
+    private String commodity;
+
+    private String count;
+
+    private double price;
+
+    private String phone;
+
+    private String description;
+
+    private boolean pay;
 
     private String createAt;
 

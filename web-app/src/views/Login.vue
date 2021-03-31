@@ -63,6 +63,7 @@
 
 <script>
 import {AdminLogin, AdminSendEmail} from "@/api/admin";
+import {IsInit} from "../api/admin";
 
 export default {
 
@@ -78,6 +79,12 @@ export default {
         remember: false,
       },
     }
+  },
+
+  mounted() {
+    IsInit().then((res) => {
+      if (!res.data) this.$router.push('/init')
+    })
   },
 
   methods: {
@@ -101,7 +108,7 @@ export default {
             this.$store.commit('user/saveToken', res.data.token)
             this.$store.commit('user/saveLoginUser', res.data.admin)
             setTimeout(() => {
-              this.$router.push("/home")
+              this.$router.push("/commodity")
               this.submitLoading = false
             }, 700)
             this.$message.success("登陆成功")

@@ -16,7 +16,9 @@ service.interceptors.response.use(
         const res = response.data;
 
         //判断response状态
-        if (!res.status) message.error(res.msg)
+        if (!res.status) message.error('请求错误: ' + res.msg)
+
+        if (res.code === 403) router.push("/403")
 
         return res
     },

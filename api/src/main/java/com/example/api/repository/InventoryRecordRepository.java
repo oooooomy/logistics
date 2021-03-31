@@ -11,6 +11,8 @@ public interface InventoryRecordRepository extends JpaRepository<InventoryRecord
 
     List<InventoryRecord> findAllByWid(String wid);
 
+    List<InventoryRecord> findAllByType(Integer type);
+
     List<InventoryRecord> findAllByCid(String cid);
 
 }

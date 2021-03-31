@@ -8,6 +8,8 @@ public interface InventoryService {
 
     Inventory save(Inventory inventory);
 
+    List<Inventory> findAll();
+
     List<Inventory> findByCommodityId(String cid);
 
     List<Inventory> findByWarehouseId(String wid);
