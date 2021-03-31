@@ -115,6 +115,7 @@ export default {
       drivers: [],
       vehicles: [],
       form: {
+        id: '',
         did: '',
         vid: '',
         driver: '',
