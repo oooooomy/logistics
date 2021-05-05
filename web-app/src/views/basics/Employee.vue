@@ -59,13 +59,9 @@
         <a-form-model-item label="联系方式">
           <a-input v-model="form.phone" placeholder="请输入手机号码"/>
         </a-form-model-item>
-        <a-form-model-item label="所在部门">
-          <a-select v-model="form.department" placeholder="请选择员工所在部门">
-            <a-select-option value="策划部">策划部</a-select-option>
-            <a-select-option value="运输部">运输部</a-select-option>
-            <a-select-option value="销售部">销售部</a-select-option>
-            <a-select-option value="广告部">广告部</a-select-option>
-            <a-select-option value="保卫部">保卫部</a-select-option>
+        <a-form-model-item label="所在仓库">
+          <a-select v-model="form.department" v-for="(item,index) in warehouseList" placeholder="请选择员工所在仓库">
+            <a-select-option :value="item.name">{{ item.name }}</a-select-option>
           </a-select>
         </a-form-model-item>
         <a-form-model-item label="性别">
@@ -85,6 +81,7 @@
 
 <script>
 import {DeleteEmployeeById, FindAllEmployee, SaveEmployee} from "@/api/employee";
+import {FindAllWarehouse} from "../../api/warehouse";
 
 const columns = [
   {
@@ -128,6 +125,7 @@ export default {
   data() {
     return {
       loading: false,
+      warehouseList: [],
       form: {
         cacheData: [],
         name: '',
@@ -147,8 +145,16 @@ export default {
     this.loadTableData()
   },
   methods: {
+
+    findAllWarehouse() {
+      FindAllWarehouse().then((res) => {
+        this.warehouseList = res.data
+      })
+    },
+
     loadTableData() {
       this.loading = true
+      this.findAllWarehouse()
       FindAllEmployee().then((res) => {
         if (res.status) {
           this.data = res.data
@@ -159,6 +165,7 @@ export default {
         }, 600)
       })
     },
+
     submitForm() {
       SaveEmployee(this.form).then((res) => {
         if (res.status) this.$message.success('员工信息提交成功');
@@ -166,6 +173,7 @@ export default {
         this.loadTableData()
       })
     },
+
     handleChange(value, id, column) {
       const newData = [...this.data];
       const target = newData.filter(item => id === item.id)[0];
@@ -183,6 +191,7 @@ export default {
         this.data = newData;
       }
     },
+
     save(id, index) {
       const newData = [...this.data];
       const newCacheData = [...this.cacheData];

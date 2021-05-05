@@ -36,6 +36,11 @@ public class CommodityController {
         return commodityService.findAll();
     }
 
+    @GetMapping("/search/{name}")
+    public List<Commodity> findByLikeName(@PathVariable String name) {
+        return commodityService.findAllByLikeName(name);
+    }
+
     @GetMapping("/{id}")
     public Commodity findById(@PathVariable String id) {
         return commodityService.findById(id);

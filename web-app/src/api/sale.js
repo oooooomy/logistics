@@ -7,6 +7,13 @@ export function FindAllSale() {
     })
 }
 
+export function SearchCompany(name) {
+    return service({
+        url: '/sale/search/' + name,
+        method: 'get'
+    })
+}
+
 export function SaveSale(data) {
     return service({
         url: '/sale',

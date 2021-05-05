@@ -1,9 +1,21 @@
 <template>
   <div>
-    <a-button size="large" class="editable-add-btn" @click="commodityVisible = true">
-      <a-icon type="plus"/>
-      新增商品
-    </a-button>
+    <div style="display: flex">
+      <a-button size="large" class="editable-add-btn" @click="commodityVisible = true">
+        <a-icon type="plus"/>
+        新增商品
+      </a-button>
+      <a-input-search
+          placeholder="请输入商品名"
+          enter-button="搜索商品"
+          style="width: 400px;margin-left: 20px"
+          size="large"
+          @search="onSearch"
+      />
+      <a-button style="margin-left: 10px" size="large" type="danger" @click="loadTableData">
+        重置
+      </a-button>
+    </div>
     <a-table :loading="loading" :columns="columns" :data-source="data" rowKey="id">
       <a slot="name" slot-scope="text">{{ text }}</a>
       <span slot="customTitle"><a-icon type="smile-o"/> 商品名称</span>
@@ -45,6 +57,7 @@
 
 <script>
 import {DeleteCommodityById, FindAllCommodity, SaveCommodity} from "@/api/commodity";
+import {SearchCommodity} from "../../api/commodity";
 
 const columns = [
   {
@@ -107,6 +120,30 @@ export default {
   },
 
   methods: {
+
+    onSearch(value) {
+      if (value){
+        this.loading = true
+        SearchCommodity(value).then((res) => {
+          console.log(res)
+          if (res.data.length === 0) {
+            this.$message.warn("未搜索到任何数据")
+            setTimeout(() => {
+              this.loading = false
+              this.data = res.data
+            }, 600)
+          } else {
+            setTimeout(() => {
+              this.$message.success("搜索到" + res.data.length + "个商品")
+              this.loading = false
+              this.data = res.data
+            }, 600)
+          }
+        })
+      }else {
+        this.$message.warn("请输入搜索内容")
+      }
+    },
 
     loadTableData() {
       this.loading = true

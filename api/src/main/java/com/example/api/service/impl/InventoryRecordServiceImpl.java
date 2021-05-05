@@ -1,8 +1,10 @@
 package com.example.api.service.impl;
 
+import com.example.api.model.entity.Commodity;
 import com.example.api.model.entity.Inventory;
 import com.example.api.model.entity.InventoryRecord;
 import com.example.api.model.vo.CommodityChartVo;
+import com.example.api.repository.CommodityRepository;
 import com.example.api.repository.InventoryRecordRepository;
 import com.example.api.repository.InventoryRepository;
 import com.example.api.service.InventoryRecordService;
@@ -10,16 +12,16 @@ import com.example.api.utils.DataTimeUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class InventoryRecordServiceImpl implements InventoryRecordService {
 
     @Resource
     private InventoryRepository inventoryRepository;
+
+    @Resource
+    private CommodityRepository commodityRepository;
 
     @Resource
     private InventoryRecordRepository recordRepository;
@@ -54,13 +56,23 @@ public class InventoryRecordServiceImpl implements InventoryRecordService {
 
     @Override
     public InventoryRecord out(InventoryRecord record) throws Exception {
+
         //查找当前商品在该仓库的库存
         Inventory inventory = inventoryRepository.findByWidAndCid(record.getWid(), record.getCid());
         //查询结果为空
         if (inventory == null) throw new Exception("仓库内不存在该商品");
         //比较库存
         if (inventory.getCount() < record.getCount()) throw new Exception("出库失败，库存数量不足");
+
+        Optional<Commodity> optional = commodityRepository.findById(record.getCid());
+        if (optional.isEmpty()) {
+            throw new Exception("不存在的商品id");
+        }
+        Commodity commodity = optional.get();
+        commodity.setCount(commodity.getCount() - record.getCount());
+        commodityRepository.save(optional.get());
         inventory.setCount(inventory.getCount() - record.getCount());
+
         inventoryRepository.save(inventory);
         record.setCreateAt(DataTimeUtil.getNowTimeString());
         record.setType(-1);
@@ -68,7 +80,15 @@ public class InventoryRecordServiceImpl implements InventoryRecordService {
     }
 
     @Override
-    public InventoryRecord in(InventoryRecord record) {
+    public InventoryRecord in(InventoryRecord record) throws Exception {
+        Optional<Commodity> optional = commodityRepository.findById(record.getCid());
+        if (optional.isEmpty()) {
+            throw new Exception("不存在的商品id");
+        }
+        Commodity commodity = optional.get();
+        commodity.setCount(commodity.getCount() + record.getCount());
+        commodityRepository.save(optional.get());
+
         //查找当前商品在该仓库的库存
         Inventory inventory = inventoryRepository.findByWidAndCid(record.getWid(), record.getCid());
         //查询结果为空

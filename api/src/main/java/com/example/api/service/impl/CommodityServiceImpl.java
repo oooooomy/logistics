@@ -42,4 +42,9 @@ public class CommodityServiceImpl implements CommodityService {
         return commodityRepository.findAll();
     }
 
+    @Override
+    public List<Commodity> findAllByLikeName(String name) {
+        return commodityRepository.findByNameLike("%" + name + "%");
+    }
+
 }

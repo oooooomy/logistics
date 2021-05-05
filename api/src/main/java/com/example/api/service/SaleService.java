@@ -10,4 +10,6 @@ public interface SaleService {
 
     List<Sale> findAll();
 
+    List<Sale> searchByCompany(String name);
+
 }

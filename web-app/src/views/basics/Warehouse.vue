@@ -19,7 +19,7 @@
               </span>
             </template>
             <a-card-meta
-                :title="(index+1) +'号仓库'"
+                :title="item.name"
                 :description="'ID: ' + item.id">
               <img class="image" slot="avatar" :src="imgList[Math.floor(Math.random() * 3)]"
                    alt=""/>
@@ -35,6 +35,7 @@
         @ok="submit"
         @cancel="visible = false"
     >
+      <a-input v-model="form.name" addon-before="仓库名称" style="width: 300px;margin-bottom: 20px"></a-input>
       <a-input v-model="form.principle" addon-before="仓库负责人" style="width: 300px"></a-input>
     </a-modal>
   </div>
@@ -48,7 +49,7 @@ export default {
   data() {
     return {
       visible: false,
-      form: {id: '', principle: ''},
+      form: {id: '', principle: '', name: ''},
       spinning: false,
       data: [],
       imgList: [

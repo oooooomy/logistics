@@ -18,6 +18,6 @@ public interface InventoryRecordService {
     InventoryRecord out(InventoryRecord record) throws Exception;
 
     //入库
-    InventoryRecord in(InventoryRecord record);
+    InventoryRecord in(InventoryRecord record) throws Exception;
 
 }

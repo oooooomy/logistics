@@ -16,4 +16,6 @@ public interface CommodityService {
 
     List<Commodity> findAll();
 
+    List<Commodity> findAllByLikeName(String name);
+
 }

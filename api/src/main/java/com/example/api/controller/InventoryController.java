@@ -59,7 +59,7 @@ public class InventoryController {
     }
 
     @PostMapping("/in")
-    public InventoryRecord in(@RequestBody InventoryRecord record) {
+    public InventoryRecord in(@RequestBody InventoryRecord record) throws Exception {
         return recordService.in(record);
     }
 

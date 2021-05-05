@@ -21,6 +21,9 @@ public class Warehouse {
     @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
 
+    //仓库名称
+    private String name;
+
     //仓库负责人
     private String principle;
 
